@@ -35,7 +35,8 @@ Vue.component('daily-page', {
                 <div class="sink-image" v-show="this.$root.is_sink"><img class="toilet" src="sink_pic.png"></></div>
             </div>
             <div class="today-number-div">
-                <span class="today-number"><b>{{ this.$root.daily_water_consumption }}</b></span>
+                <span class="today-number" v-show="this.$root.liters"><b>{{ this.$root.daily_water_consumption }}</b></span>
+                <span class="today-number" v-show="this.$root.gallons"><b>{{ this.$root.daily_water_consumption * 0.264172 }}</b></span>
                 <div class="units-div">
                     <a class="units" @click="change_units('gals')" v-show="this.$root.liters"><b>LITERS</b></a>
                     <a class="units" @click="change_units('lits')" v-show="this.$root.gallons"><b>GALLONS</b></a>
@@ -48,7 +49,7 @@ Vue.component('daily-page', {
         change_units: function(unit) {
             if (unit == 'gals') {return this.$root.gallons=true,this.$root.liters=false}
             else if (unit == 'lits') {return this.$root.gallons=false,this.$root.liters=true}
-    }}
+    }},
 }),
 // more page
 Vue.component('more-page', {
@@ -56,11 +57,16 @@ Vue.component('more-page', {
         <div class="more-page-container">
         <div class="more-page">
             <div class="account">
-                <a class="my-account"><b>Account</b></a>
+                <a class="my-account" @click=makeForm()><b>Account</b></a>
+                <form id=form1>
+                    <input text="Username" type="text" id="user" name="user">Username</input><br>
+                    <input text="Password" type="password" id="pswd" name="pswd">Password</input><br>
+                    <button type="submit" onClick="sumbit_form()">Submit</button>
+                </form>
             </div> <br></br>
             <div class="bathroom-location">
                 <a class="my-location-question">Are you in your bathroom?</a><br></br>
-                <a class="my-location-button" @click="save_loc_to_bathroom()"><b>YES!</b></a></br></br>
+                <a class="my-location-button" @click="save_loc_to_bathroom(); watch_loc()"><b>YES!</b></a></br></br>
                 <a class="your-loc">Latitude: {{ this.$root.bathroom_location_lat }}</a>
                 <a class="your-loc">Longitude: {{ this.$root.bathroom_location_long }}</a>
             </div>
@@ -70,14 +76,26 @@ Vue.component('more-page', {
     methods: {
         save_loc_to_bathroom: function() {
             navigator.geolocation.getCurrentPosition(position => {
-                console.log(position)
-                console.log(position.coords.latitude);
                 this.$root.bathroom_location_lat = position.coords.latitude;
                 this.$root.bathroom_location_long = position.coords.longitude;
-            }, error => {
-                console.error(error)
             })
         },
+        watch_loc: function() {
+            navigator.geolocation.getCurrentPosition(pos => {
+                console.log(pos.coords.latitude);
+                console.log(this.$root.bathroom_location_lat);
+                    if ((pos.coords.latitude >= this.$root.bathroom_location_lat - 0.001 && pos.coords.latitude <= this.$root.bathroom_location_long + 0.001) || (pos.coords.longitude <= this.$root.bathroom_location_long + 0.001 && pos.coords.longitude >= this.$root.bathroom_location_long - 0.001)) {
+                        this.$root.in_range = true;
+                        console.log(this.$root.in_range);
+                    } else { this.$root.in_range = false }}), error => {
+                            console.error(error) }
+        },
+        makeForm: function() {
+            document.documentElement.style.setProperty('--main-display-form', 'block')
+        },
+        sumbit_form: function() {
+            return;
+        }
 }});
 // navigation bar
 Vue.component('nav-bar', {
@@ -132,13 +150,97 @@ var app = new Vue({
         nav_more: false,
         bathroom_location_lat: '',
         bathroom_location_long: '',
-        daily_water_consumption: '9',
+        daily_water_consumption: '4',
         weekly_water_consumption: '1000',
         is_toilet: false,
         is_bath: false,
-        is_sink: false,
-        is_shower: true,
+        is_sink: true,
+        is_shower: false,
         liters: true,
         gallons: false,
+        in_range: false,
     },
+    
+    created: function() {
+            var promise = navigator.mediaDevices.getUserMedia({audio:true})
+            .then(function(localStream){
+            var audioContext = new(window.AudioContext || window.webkitAudioContext)();
+            var input = audioContext.createMediaStreamSource(localStream);
+            var analyser = audioContext.createAnalyser();
+            var scriptProcessor = audioContext.createScriptProcessor();
+            // Some analyser setup
+            analyser.smoothingTimeConstant = 0;
+            analyser.fftSize = 64;
+
+            input.connect(analyser);
+            analyser.connect(scriptProcessor);
+            scriptProcessor.connect(audioContext.destination);
+            var getAverageVolume  =  function( array){
+                var length = array.length;
+                var values = 0;
+                var i = 0;
+               for (; i < length; i++) {
+                  values += array[i];
+               }
+               return values / length;
+            };
+            var onAudio = function(){
+              var tempArray = new window.Uint8Array(analyser.frequencyBinCount);
+              analyser.getByteFrequencyData(tempArray);
+              var latestFrequency = (getAverageVolume(tempArray));
+              //use latestFrequency
+              console.log(latestFrequency);
+              //console.log(freq);
+            };
+            scriptProcessor.onaudioprocess = onAudio;
+          });
+          console.log(promise);
+          if (this.$root.is_toilet == true) {
+            this.$root.daily_water_consumption=this.$root.daily_water_consumption+0.25;
+          } else if (this.$root.is_shower == true) {
+            this.$root.daily_water_consumption=this.$root.daily_water_consumption+0.035;
+          } else if (this.$root.is_sink == true) {
+            this.$root.daily_water_consumption=this.$root.daily_water_consumption+0.025;
+          } else if (this.$root.is_bath == true) {
+            this.$root.daily_water_consumption=this.$root.daily_water_consumption+0.035;
+          }
+    },
+    /*
+    methods: {
+    logFreq: function(a) {
+        if (a == 0) { return; }
+        navigator.mediaDevices.getUserMedia({audio:true}).then(function(localStream){
+            var audioContext = new(window.AudioContext || window.webkitAudioContext)();
+            var input = audioContext.createMediaStreamSource(localStream);
+            var analyser = audioContext.createAnalyser();
+            var scriptProcessor = audioContext.createScriptProcessor();
+            // Some analyser setup
+            analyser.smoothingTimeConstant = 0;
+            analyser.fftSize = 64;
+          
+            input.connect(analyser);
+            analyser.connect(scriptProcessor);
+            scriptProcessor.connect(audioContext.destination);
+            var getAverageVolume  =  function( array){
+                var length = array.length;
+                var values = 0;
+                var i = 0;
+               for (; i < length; i++) {
+                  values += array[i];
+               }
+              return values / length;
+            };
+            var onAudio = function(){
+              var tempArray = new window.Uint8Array(analyser.frequencyBinCount);
+              analyser.getByteFrequencyData(tempArray);
+              var latestFrequency = (getAverageVolume(tempArray));
+              console.log(latestFrequency);
+              //use latestFrequency
+            };
+            scriptProcessor.onaudioprocess = onAudio;
+          })
+          .catch(function(){
+            //Handle error
+          });
+    } */
 });
