@@ -10,11 +10,16 @@
     <body>
         <!--Vue App-->
         <div id='app'>
-
+            <div class="top-logo"><img src="waterLogo.PNG"/><b>WCSS</b></div>
+            <nav-bar></nav-bar>
+            <weekly-page v-show="nav_weekly"></weekly-page>
+            <daily-page v-show="nav_daily"></daily-page>
+            <more-page v-show="nav_more"></more-page>
         </div>
         <!--link to use vue.js-->
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <!--link to the javascript file-->
         <script src="main.js"></script>
     </body>

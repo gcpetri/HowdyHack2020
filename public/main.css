@@ -1,0 +1,349 @@
+:root {
+    --main-position-cup: 195px;
+    --main-display-form: none;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+html, body {
+    font-family: sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    animation-name: first-back-ground;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    overflow: auto;
+
+}
+/* logic form */
+#loginform {
+    display: var(--main-display-form);
+}
+
+.top-logo {
+    width: 50px;
+    height: 50px;
+    z-index: 5;
+    margin: 5px;
+    position: fixed;
+    right: 0%;
+    top: 0%;
+    color: rgb(226, 223, 223);
+}
+.top-logo img {
+    width: 50px;
+    height: auto;
+    border-radius: 10px;
+}
+.nav-bar {
+    height: 12%;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 5;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #eeeded;
+    height: 100%;
+  }
+  
+  li {
+    float: left;
+    height: 100%;
+    width: 33.3%;
+  }
+  
+  li a {
+    display: block;
+    color: rgb(122, 121, 121);
+    text-align: center;
+    text-decoration: none;
+    padding: 30px;
+    height: 100%;
+  }
+  
+  li a:hover {
+    background-color: #333333;
+  }
+  li a:active {
+    background-color: rgb(26, 25, 24);
+  }
+  li a.active {
+      background: #8d7c1976;
+  }
+
+  /* animated background */
+@keyframes first-back-ground {
+    0% {background: #6f9dc0;}
+    20% {background: #6d8596;;}
+    40% {background: #536872;}
+    60% {background: #6e7f80;}
+    80% {background: #8b9dc3;}
+    100% {background: #7ea2bd;}
+}
+
+/* more page */
+.more-page-container .more-page {
+    position: absolute;
+    justify-items: center;
+    text-align: center;
+    top: 45%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.more-page .account {
+    display: block;
+    padding: 10%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    background-color: #444647;
+    color: rgb(218, 214, 214);
+    font-size: large;
+    border-radius: 15px;
+    font-size: 2em;
+}
+.more-page .account:hover {
+    background-color: #2c2d2e;
+}
+.more-page .bathroom-location .my-location-question {
+    color: white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background-color: #4446479f;
+    border-radius: 15px;
+}
+.more-page .bathroom-location .my-location-button {
+    display: block;
+    padding: 15%;
+    font-size: 3em;
+    background-color: #b1a044;
+    color: white;
+    border-radius: 15px;
+}
+.more-page .bathroom-location .my-location-button:hover {
+    background-color: #685e23;
+}
+.more-page .bathroom-location .your-loc {
+    background-color: #f1f5f0f1;
+    color: #b1a044;
+    padding: 5%;
+    display: block;
+    border-radius: 10px;
+}
+/* daily page */
+.daily-page-container .daily-page {
+    position: absolute;
+    justify-items: center;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 100%;
+    z-index: 0;
+}
+.daily-page .daily-page-header .today-title {
+    color: #f7fcfb;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    z-index: 3;
+    font-size: 1em;
+}
+
+.daily-page .today-number-div .today-number {
+    font-size: 20em;
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    padding: 20%;
+    background-color: rgb(206, 206, 206);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-radius: 15px;
+    z-index: 10;
+}
+.daily-page .water-images {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: -1;
+    filter: blur(2px);
+    overflow: none;
+}
+.daily-page .water-images .shower-image img {
+    width: 190px;
+    height:auto;
+    border-radius: 150px;
+    transform: translateX(200px);
+    animation: movein2 5s ;
+    z-index: 10; 
+    overflow: none;
+}
+.daily-page .water-images .bath-image img {
+    width: 190px;
+    height:auto;
+    border-radius: 150px;
+    transform: translateX(-200px);
+    animation: movein 5s ;
+    z-index: 10;  
+    overflow: none;
+}
+.daily-page .water-images .sink-image img {
+    width: 190px;
+    height:auto;
+    border-radius: 150px;
+    transform: translateX(200px);
+    animation: movein2 5s ;
+    z-index: 10;
+    overflow: none;
+}
+.daily-page .water-images .toilet-image img {
+    width: 190px;
+    height:auto;
+    border-radius: 150px;
+    transform: translateX(-200px);
+    animation: movein 5s ;
+    z-index: 10; 
+    overflow: none; 
+}
+@keyframes movein
+{
+    0% {transform: translateX(-40px);}
+    40% {transform: translateX(50px);}
+}
+@keyframes movein2
+{
+    0% {transform: translateX(50px);}
+    40% {transform: translateX(-40px);}
+}
+.daily-page .today-number-div .units {
+    font-size: 2em;
+    color: rgb(230, 230, 230);
+    background-color: #1a3144;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    padding-left: 45px;
+    padding-right: 45px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.daily-page .today-number-div .units:hover {
+    background-color: #74a0c4;
+}
+/* weekly page */
+.weekly-page-container .weekly-page {
+    position: absolute;
+    justify-items: center;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 100%;
+    z-index: 0;
+}
+.weekly-page .wk-water {
+    color: white;
+    font-size: 6em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.weekly-page .wk-water .unit-abbrv {
+    font-size: 0.3em;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #262626;
+  }
+  
+  .cup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 190px;
+    border: 6px solid #262626;
+    border-top: 2px solid transparent;
+    border-radius: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: url(https://weather.wxnorthwest.com/tools/deq/green_yellow_red_gradient.jpg);
+    background-position: 0px var(--main-position-cup);
+    box-shadow: 0 0 0 6px #fff, 0 20px 35px rgba(0,0,0,1);
+  }
+  .cup:before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    border: 6px solid #fff;
+    right: -57px;
+    top: 30px;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 35px;
+  }
+
+.weekly-page .legend {
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    justify-items: center;
+    text-align: center;
+    top: 80%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 100%;
+    border-radius: 20px;
+}
+.weekly-page .legend ul {
+    border-radius: 20px;
+    color: white;
+    background-color: rgba(0, 128, 0, 0.664);
+}
+.weekly-page .legend ul li.green-legend {
+    background-color: rgba(7, 85, 7, 0.85);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.weekly-page .legend ul li.yellow-legend {
+    background-color: rgba(255, 255, 0, 0.85);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.weekly-page .legend ul li.red-legend {
+    background-color: rgba(255, 0, 0, 0.85);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.weekly-page .wk-total {
+    color: white;
+}
+
